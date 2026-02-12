@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export NAMESPACE="cloudsmith-org-neeraj"
-export API_KEY=$CLOUDSMITH_API_KEY
+export NAMESPACE="cloudsmith-org-neeraj" # Replace with your actual namespace
+export API_KEY=$CLOUDSMITH_API_KEY # Ensure you have set the CLOUDSMITH_API_KEY environment variable with your API key
 
 echo "#### Fetching repositories for namespace: ${NAMESPACE} ####"
 
