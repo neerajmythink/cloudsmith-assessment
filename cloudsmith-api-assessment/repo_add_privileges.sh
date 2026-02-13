@@ -84,11 +84,43 @@ add_service_account_privileges() {
             '
 }
 
+# function to get current user
+get_current_user() {
+  curl -sS\
+      --request GET \
+      --url https://api.cloudsmith.io/user/self/ \
+      --header "X-Api-Key: ${API_KEY}" \
+      --header 'accept: application/json' | jq -r '.slug'
+}
+
+# function to add privileges to the repository for current user
+update_user_privileges() {
+  curl -sS\
+      --request PATCH \
+      --url https://api.cloudsmith.io/repos/${NAMESPACE}/${REPO_NAME}/privileges \
+      --header 'accept: application/json' \
+      --header 'content-type: application/json' \
+      --header "X-Api-Key: ${API_KEY}" \
+      --data '
+            {
+              "privileges": [
+                {
+                  "privilege": "Admin",
+                  "user": "'${CURRENT_USER}'"
+                }
+              ]
+            }
+            '
+}
+
 echo "#### Adding a team to the namespace '$NAMESPACE' and giving Write access to '$TEAM_NAME' team for the repository '$REPO_NAME' ####"
 add_team
 add_team_privileges
 
 echo "#### Adding a service account to the namespace '$NAMESPACE' and giving Admin access to '$SERVICE_NAME' account for the repository '$REPO_NAME' ####"
 export SERVICE_ACCOUNT_SLUG=$(add_service_account)
-echo "Service account slug: $SERVICE_ACCOUNT_SLUG"
 add_service_account_privileges
+
+echo "#### Giving current user Admin access to the repository '$REPO_NAME' of namespace '$NAMESPACE' ####"
+export CURRENT_USER=$(get_current_user)
+update_user_privileges
