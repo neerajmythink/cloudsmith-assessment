@@ -10,9 +10,9 @@ export NAMESPACE="cloudsmith-org-neeraj" # Replace with your actual namespace
 export API_KEY=$CLOUDSMITH_API_KEY # Ensure you have set the CLOUDSMITH_API_KEY environment variable with your API key
 export REPO_NAME="assessment-repo" # You can change the repository name as needed
 export TEAM_NAME="new-team" # Name for the team to be created
+export SERVICE_NAME="new_service" # Name for the service account to be created
 
-echo "#### Adding privileges to repository: ${REPO_NAME} in namespace: ${NAMESPACE} ####"
-
+echo "#### Adding team to the namespace '$NAMESPACE' ####"
 curl -sS\
   --request POST \
   --url "https://api.cloudsmith.io/orgs/${NAMESPACE}/teams/" \
@@ -24,5 +24,56 @@ curl -sS\
   "visibility": "Visible",
   "description": "team created using API",
   "name":"'${TEAM_NAME}'"
+} ' | jq
+
+echo "#### Adding Write access to the repository '$REPO_NAME' for team '$TEAM_NAME' in namespace '$NAMESPACE' ####"
+curl -sS\
+  --request PATCH \
+  --url https://api.cloudsmith.io/repos/${NAMESPACE}/${REPO_NAME}/privileges \
+  --header "X-Api-Key: ${API_KEY}" \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "privileges": [
+    {
+      "privilege": "Write",
+      "team": "'${TEAM_NAME}'"
+    }
+  ]
 }
-' | jq
+'
+
+# echo "#### Adding service account with Admin access to the repository $REPO_NAME in namespace $NAMESPACE ####"
+
+# curl -sS\
+#   --request POST \
+#   --url https://api.cloudsmith.io/orgs/${NAMESPACE}/services/ \
+#   --header 'accept: application/json' \
+#   --header 'content-type: application/json' \
+#   --header "X-Api-Key: ${API_KEY}" \
+#   --data '
+# {
+#   "role": "Member",
+#   "description": "service account created using API",
+#   "name": "'${SERVICE_NAME}'"
+# }
+# ' | jq
+
+# curl -sS\
+#   --request PATCH \
+#   --url https://api.cloudsmith.io/repos/${NAMESPACE}/${REPO_NAME}/privileges \
+#   --header 'accept: application/json' \
+#   --header 'content-type: application/json' \
+#   --data '
+# {
+#   "privileges": [
+#     {
+#       "privilege": "Admin",
+#       "service": "'${SERVICE_NAME}'"
+#     }
+#   ]
+# }
+# ' | jq
+
+
