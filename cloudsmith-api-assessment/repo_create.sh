@@ -19,8 +19,8 @@ create_repo() {
     "name": "'"${REPO_NAME}"'",
     "description": "'"${REPO_DESC}"'",
     "repository_type_str": "Public",
-    "copy_packages": "Read"
-            }' | jq '.'
+    "default_privilege": "Read"
+    }' | jq '.'
 }
 
 # Check if repository with the same name already exists before creating a new one to avoid duplication.
