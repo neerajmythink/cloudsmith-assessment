@@ -1,0 +1,24 @@
+name: Say Hello World
+
+on:
+  repository_dispatch:
+    # Ensure this matches the 'event_type' you set in the Cloudsmith Webhook
+    types: [cloudsmith_package_uploaded]
+
+env:
+  CLOUDSMITH_NAMESPACE: ${{ vars.CLOUDSMITH_NAMESPACE }}
+  CLOUDSMITH_SERVICE_SLUG: ${{ vars.CLOUDSMITH_SERVICE_SLUG }}
+
+permissions:
+  id-token: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Triggered Notification
+        run: |
+          echo "Hello World"
+          echo "The webhook from Cloudsmith successfully triggered this action!"
+        shell: bash
