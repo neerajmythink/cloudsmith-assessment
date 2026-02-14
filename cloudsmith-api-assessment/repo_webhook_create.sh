@@ -4,6 +4,8 @@
 export NAMESPACE="cloudsmith-org-neeraj" # Replace with your actual namespace
 export API_KEY=$CLOUDSMITH_API_KEY # Ensure you have set the CLOUDSMITH_API_KEY environment variable with your API key
 export REPO_NAME="assessment-repo" # You can change the repository name as needed
+export TARGET_URL="https://api.github.com/repos/neerajmythink/cloudsmith-cs-interview-candidate/dispatches" # Replace with your actual GitHub repository dispatch URL
+export SECRET_VALUE="Bearer github_pat_xxxxxxxxxxxxxxxxxxxxxx" # Replace with your actual GitHub token
 
 # Function to set up a webhook for npm packages
 create_webhook() {
@@ -16,10 +18,11 @@ create_webhook() {
     --data '
           {
         "is_active": true,
-        "target_url": "https://api.github.com/repos/neerajmythink/cloudsmith-cs-interview-candidate/dispatchess",
+        "target_url": "'"${TARGET_URL}"'",
         "request_body_format": 3,
         "request_body_template_format": 1,
         "secret_header": "Authorization",
+        "secret_value": "'"${SECRET_VALUE}"'",
         "verify_ssl": true,
         "templates": [
                       {
