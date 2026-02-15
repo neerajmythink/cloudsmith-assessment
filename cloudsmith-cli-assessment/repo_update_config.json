@@ -1,0 +1,5 @@
+{
+    "name": "example_repo_through_cli",
+    "description": "This is an example repository created using the Cloudsmith CLI with updated description and repository type.",
+    "repository_type_str": "Private"
+}
