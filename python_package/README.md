@@ -1,4 +1,4 @@
-# This README provides instructions on how to build the Python package for the Cloudsmith CLI assessment.
+This README provides instructions on how to build the Python package for the Cloudsmith CLI assessment.
 
 ## Install the build tool
 
