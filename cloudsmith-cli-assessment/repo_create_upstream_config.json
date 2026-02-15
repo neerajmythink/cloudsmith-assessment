@@ -1,0 +1,8 @@
+{
+    "name": "Maven upstream proxy",
+    "upstream_url": "https://repo1.maven.org/maven2",
+    "mode": "Cache and Proxy",
+    "auth_mode": "None",
+    "priority": 1,
+    "verify_ssl": true
+}
