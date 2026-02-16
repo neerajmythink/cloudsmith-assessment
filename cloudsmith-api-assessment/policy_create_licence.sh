@@ -19,7 +19,6 @@ create_license_policy() {
   "name": "Quarantine Unknown Licenses",
   "on_violation_quarantine": true,
   "spdx_identifiers": [
-	  "Aladdin",
     "MIT"
   ]
 }
