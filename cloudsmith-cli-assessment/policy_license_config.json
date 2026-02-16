@@ -2,7 +2,7 @@
     "name": "license-policy-through-cli",
     "description": "This policy checks for specific licenses in packages and takes action if they are not compliant.",
     "spdx_identifiers" : ["MIT"],
-    "package_query_string" : "format:python AND downloads:>50",
+    "package_query_string" : "format:python",
     "allow_unknown_licenses": false,
-    "quarantine_on_violation": true
+    "on_violation_quarantine": true
 }
