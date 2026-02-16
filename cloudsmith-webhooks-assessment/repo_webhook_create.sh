@@ -8,7 +8,7 @@ export REPO_NAME="example_repo_through_cli" # You can change the repository name
 export TARGET_URL="https://webhook.site/06499a3b-b157-4111-82d1-d0146edfdbb3" # Replace with your actual webhook target URL (e.g., from webhook.site)
 export PACKAGE_QUERY="format:python and tag:shared" # Query to filter for python packages tagged as "shared"
 
-# Function to set up a webhook for npm packages
+# Function to set up a webhook for the specified repository and namespace
 create_webhook() {
   curl -sS\
     --request POST \
@@ -27,7 +27,7 @@ create_webhook() {
         "templates": [
                       {
                         "event": "default",
-                        "template": "{\"event_type\": \"cloudsmith_package_uploaded\"}"
+                        "template": "{\"event_type\": \"cloudsmith_package_event\"}"
                       }
                       ],
         "events": [
@@ -38,5 +38,5 @@ create_webhook() {
 ' | jq '.slug_perm'
 }
 
-echo "#### Creating a webhook for 'npm' packages in '${REPO_NAME}' in namespace: '${NAMESPACE}' with 'slug_perm' as ####"
+echo "#### Creating a webhook for given package query '${PACKAGE_QUERY}' packages in '${REPO_NAME}' in namespace: '${NAMESPACE}' with 'slug_perm' as ####"
 create_webhook
