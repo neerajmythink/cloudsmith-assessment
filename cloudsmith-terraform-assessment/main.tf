@@ -55,3 +55,22 @@ resource "cloudsmith_repository_upstream" "staging_python" {
   upstream_type = "python"
   upstream_url  = "https://pypi.org/simple"
 }
+
+# Create 3 teams: Dev, DevOps, Admin
+resource "cloudsmith_team" "dev" {
+  organization = var.organization
+  name         = "Dev"
+  description  = "Dev team created using Terraform"
+}
+
+resource "cloudsmith_team" "devops" {
+  organization = var.organization
+  name         = "DevOps"
+  description  = "DevOps team created using Terraform"
+}
+
+resource "cloudsmith_team" "admin" {
+  organization = var.organization
+  name         = "Admin"
+  description  = "Admin team created using Terraform"
+}
