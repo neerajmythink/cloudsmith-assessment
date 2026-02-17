@@ -74,3 +74,62 @@ resource "cloudsmith_team" "admin" {
   name         = "Admin"
   description  = "Admin team created using Terraform"
 }
+
+# Assign the following privileges to repositories:
+# QA: Write for all teams
+resource "cloudsmith_repository_privileges" "qa_privs" {
+  organization = var.organization
+  repository   = cloudsmith_repository.qa.slug
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.dev.slug
+  }
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.devops.slug
+  }
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.admin.slug
+  }
+}
+
+# Staging: Write for all teams
+resource "cloudsmith_repository_privileges" "staging_privs" {
+  organization = var.organization
+  repository   = cloudsmith_repository.staging.slug
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.dev.slug
+  }
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.devops.slug
+  }
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.admin.slug
+  }
+}
+
+# Production: Write for admin, Read for Devops, Dev shouldn’t have permissions
+resource "cloudsmith_repository_privileges" "production_privs" {
+  organization = var.organization
+  repository   = cloudsmith_repository.production.slug
+
+  team {
+    privilege = "Write"
+    slug      = cloudsmith_team.admin.slug
+  }
+
+  team {
+    privilege = "Read"
+    slug      = cloudsmith_team.devops.slug
+  }
+}
