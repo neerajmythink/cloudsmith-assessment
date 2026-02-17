@@ -2,3 +2,10 @@
 *.txt
 *.gz
 *.whl
+
+# terraform
+.terraform/
+*.tfstate
+*.tfvars
+*.tfstate.backup
+*.terraform.lock.hcl
