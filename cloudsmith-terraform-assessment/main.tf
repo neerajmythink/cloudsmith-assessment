@@ -133,3 +133,28 @@ resource "cloudsmith_repository_privileges" "production_privs" {
     slug      = cloudsmith_team.devops.slug
   }
 }
+
+# Create a Geo/IP rule to block all the traffic coming from Russia for all repositories
+resource "cloudsmith_repository_geo_ip_rules" "block_russia_production" {
+  namespace  = var.organization
+  repository = cloudsmith_repository.production.slug
+  country_code_deny = [
+    "RU",
+  ]
+}
+
+resource "cloudsmith_repository_geo_ip_rules" "block_russia_qa" {
+  namespace  = var.organization
+  repository = cloudsmith_repository.qa.slug
+  country_code_deny = [
+    "RU",
+  ]
+}
+
+resource "cloudsmith_repository_geo_ip_rules" "block_russia_staging" {
+  namespace  = var.organization
+  repository = cloudsmith_repository.staging.slug
+  country_code_deny = [
+    "RU",
+  ]
+}
