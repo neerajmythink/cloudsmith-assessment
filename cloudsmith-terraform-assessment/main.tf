@@ -11,7 +11,8 @@ provider "cloudsmith" {
   api_key = var.cloudsmith_api_key
 }
 
-# Create Cloudsmith repositories
+# Create Cloudsmith repositories and enable replace packages by default for production repository
+
 resource "cloudsmith_repository" "qa" {
   name        = "QA"
   namespace   = var.organization
@@ -25,9 +26,10 @@ resource "cloudsmith_repository" "staging" {
 }
 
 resource "cloudsmith_repository" "production" {
-  name        = "Production"
-  namespace   = var.organization
-  description = "Production repository created using Terraform"
+  name                        = "Production"
+  namespace                   = var.organization
+  description                 = "Production repository created using Terraform"
+  replace_packages_by_default = true
 }
 
 # Add upstreams to QA repository for npm and maven
