@@ -161,3 +161,14 @@ resource "cloudsmith_repository_geo_ip_rules" "block_russia" {
   repository        = each.value
   country_code_deny = ["RU"]
 }
+
+# Create a vulnerability policy that will block any NPM packages with a critical security scan result.
+resource "cloudsmith_vulnerability_policy" "npm_critical" {
+  organization            = var.organization
+  name                    = "NPM Critical Policy"
+  description             = "Policy to block NPM packages with critical vulnerabilities"
+  min_severity            = "Critical"
+  on_violation_quarantine = true
+  allow_unknown_severity  = false
+  package_query_string    = "format:npm"
+}
