@@ -75,6 +75,13 @@ resource "cloudsmith_team" "admin" {
   description  = "Admin team created using Terraform"
 }
 
+# Create a service account
+resource "cloudsmith_service" "service_account" {
+  organization = var.organization
+  name         = "Service_Account"
+  description  = "Service account created using Terraform"
+}
+
 # Assign the following privileges to repositories:
 # QA: Write for all teams
 locals {
@@ -121,7 +128,7 @@ resource "cloudsmith_repository_privileges" "staging_privs" {
   }
 }
 
-# Production: Write for admin, Read for Devops, Dev shouldn’t have permissions
+# Production: Write for admin, Read for Devops, Dev shouldn’t have permissions and provide service account the same permissions as DevOps team.
 resource "cloudsmith_repository_privileges" "production_privs" {
   organization = var.organization
   repository   = cloudsmith_repository.production.slug
@@ -134,6 +141,11 @@ resource "cloudsmith_repository_privileges" "production_privs" {
   team {
     privilege = "Read"
     slug      = cloudsmith_team.devops.slug
+  }
+
+  service {
+    privilege = "Read"
+    slug      = cloudsmith_service.service_account.slug
   }
 }
 
