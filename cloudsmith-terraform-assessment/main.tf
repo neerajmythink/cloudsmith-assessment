@@ -77,23 +77,26 @@ resource "cloudsmith_team" "admin" {
 
 # Assign the following privileges to repositories:
 # QA: Write for all teams
+locals {
+  # Define the teams that should have Write access
+  qa_write_teams = [
+    cloudsmith_team.dev.slug,
+    cloudsmith_team.devops.slug,
+    cloudsmith_team.admin.slug
+  ]
+}
+
 resource "cloudsmith_repository_privileges" "qa_privs" {
   organization = var.organization
   repository   = cloudsmith_repository.qa.slug
 
-  team {
-    privilege = "Write"
-    slug      = cloudsmith_team.dev.slug
-  }
-
-  team {
-    privilege = "Write"
-    slug      = cloudsmith_team.devops.slug
-  }
-
-  team {
-    privilege = "Write"
-    slug      = cloudsmith_team.admin.slug
+  # Use dynamic to generate the team blocks
+  dynamic "team" {
+    for_each = local.qa_write_teams
+    content {
+      privilege = "Write"
+      slug      = team.value
+    }
   }
 }
 
