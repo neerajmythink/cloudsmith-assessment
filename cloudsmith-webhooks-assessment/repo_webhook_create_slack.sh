@@ -6,7 +6,7 @@ export NAMESPACE="cloudsmith-org-neeraj" # Replace with your actual namespace
 export REPO_NAME="example_repo_through_cli" # You can change the repository name as needed
 export API_KEY=$CLOUDSMITH_API_KEY # Ensure you have set the CLOUDSMITH_API_KEY environment variable with your API key
 
-export TARGET_URL="https://hooks.slack.com/services/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" # Replace with your actual Slack webhook URL
+export TARGET_URL=$WEBHOOK_TARGET_URL # Ensure you have set the WEBHOOK_TARGET_URL environment variable with your Slack webhook URL
 export PACKAGE_QUERY="(format:npm or format:python) and tag:latest" # Query to filter for npm or python packages tagged with "latest"
 
 # Function to set up a webhook for the specified repository and namespace
@@ -28,7 +28,7 @@ create_slack_webhook() {
         "templates": [
                       {
                         "event": "default",
-                        "template": "{\"text\": \"A package named: {{data.display_name}} has been {{meta.event_id}} with format {{data.format}}\"}"
+                        "template": "{\"blocks\":[{\"type\":\"header\",\"text\":{\"type\":\"plain_text\",\"text\":\"🚨 Cloudsmith Package Alert\",\"emoji\":true}},{\"type\":\"divider\"},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"```\\nNamespace     : {{data.namespace}}\\nRepository    : {{data.repository}}\\nPackage Name  : {{data.display_name}}\\nFormat        : {{data.format}}\\nSlug          : {{data.slug_perm}}\\nEvent         : {{meta.event_id}}\\nTimestamp     : {{meta.event_at}}\\n```\"}}]}"
                       }
                       ],
         "events": [
