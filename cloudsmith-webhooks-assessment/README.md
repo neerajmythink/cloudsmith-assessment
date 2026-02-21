@@ -61,13 +61,13 @@ export WEBHOOK_TARGET_URL="https://your-webhook-url"
 
 ---
 
-# Webhook #1 — Python `shared` Tag Events
+# Webhook #1 — Python package is synchronised or a tag is updated
 
 ## Description
 
 Creates a webhook that triggers when:
 
-- A Python package tagged `shared` is synchronized
+- A Python package tagged `shared` is synchronized 
 - A tag is updated for that package
 
 ## Script
@@ -149,7 +149,7 @@ Verify that the payload is delivered to the configured endpoint.
 ## Test Webhook #2
 
 1. Delete an `npm` or `Python` package
-2. Ensure it is tagged as the latest release
+2. Ensure it is tagged as the `latest` release
 
 Verify that the Slack channel receives the notification.
 
@@ -201,19 +201,3 @@ The webhook payload templates inside the scripts can be modified to:
 For full webhook configuration options, see:
 
 [https://docs.cloudsmith.com/api/webhooks/create](https://docs.cloudsmith.com/api/webhooks/create)
-
----
-
-# License
-
-This project is intended for internal automation and integration purposes.
-Adapt as required for your organization’s workflow.
-
----
-
-If you’d like, I can also provide:
-
-- A version with badges (CI, license, version)
-- A developer-focused README with curl examples inline
-- A Terraform-based alternative
-- Or a version tailored specifically for a Cloudsmith demo environment
